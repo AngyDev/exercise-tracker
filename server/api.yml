@@ -1,0 +1,213 @@
+---
+swagger: "2.0"
+info:
+  description: This is the API documentation for the Docile project
+  version: 1.0.0
+  title: Exercise Tracker API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+host: virtserver.swaggerhub.com
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+schemes:
+- https
+paths:
+  /api/users:
+    post:
+      summary: Creates a user
+      description: Creates a user
+      operationId: saveUsers
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: formData
+        name: username
+        type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#definitions/User"
+    get:
+      summary: Gets a list of all users
+      description: Gets a list of all users
+      operationId: getUsers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#definitions/User"
+  /api/users/:_id/exercises:
+    post:
+      summary: Creates user exercises
+      description: Creates user exercises
+      operationId: saveExercise
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: _id
+        in: path
+        description: the id of the user
+        type: string
+        required: true
+      - name: description
+        in: formData
+        type: string
+        required: true
+      - name: duration
+        in: formData
+        type: integer
+        required: true
+      - name: date
+        in: formData
+        type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#definitions/UserExercise"
+  /api/users/:_id/logs:
+    get:
+      summary: Gets a full exercise log of any user
+      description: Gets a full exercise log of any user
+      operationId: getUserLogs
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: _id
+        in: path
+        description: the id of the user
+        type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#definitions/UserLogs"
+  /api/users/:_id/logs/:from/:to/:limit:
+    get:
+      summary: Retrieves part of the log of any user
+      description: Retrieves part of the log of any user
+      operationId: getUserLogsTimeLimit
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: _id
+        in: path
+        description: the id of the user
+        type: string
+        required: true
+      - name: from
+        in: path
+        description: from date
+        type: string
+        required: true
+        format: date
+        default: "YYYY-MM-DD"
+      - name: to
+        in: path
+        description: to date
+        type: string
+        format: date
+        required: true
+        default: "YYYY-MM-DD"
+      - name: limit
+        in: path
+        description: how many logs send back
+        type: integer
+        required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#definitions/UserLogs"
+definitions:
+  User:
+    type: object
+    required:
+    - username
+    - _id
+    properties:
+      username:
+        type: string
+        example: "fcc_test"
+      _id:
+        type: string
+        example: "5fb5853f734231456ccb3b05"
+  UserExercise:
+    type: object
+    required:
+    - username
+    - _id
+    - description
+    - duration
+    - date
+    properties:
+      username:
+        type: string
+        example: "fcc_test"
+      _id:
+        type: string
+        example: "5fb5853f734231456ccb3b05"
+      description:
+        type: string
+        example: "test"
+      duration:
+        type: integer
+        example: 60
+      date:
+        type: string
+        example: "Mon Jan 01 1990"
+  UserLogs:
+    type: object
+    required:
+    - username
+    - _id
+    - count
+    - log
+    properties:
+      username:
+        type: string
+        example: "fcc_test"
+      _id:
+        type: string
+        example: "5fb5853f734231456ccb3b05"
+      count: 
+        type: integer
+        description: representing the number of exercises that belong to that user.
+        example: 1
+      log:
+        type: array
+        items:
+          $ref: "#definitions/Log"
+  Log:
+    type: object
+    properties:
+      description:
+        type: string
+        example: "test"
+      duration:
+        type: integer
+        example: 60
+      date: 
+        type: string
+        example: "Mon Jan 01 1990"
