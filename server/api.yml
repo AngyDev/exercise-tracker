@@ -18,70 +18,71 @@ schemes:
 - https
 paths:
   /api/users:
-    post:
-      summary: Creates a user
-      description: Creates a user
-      operationId: saveUsers
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - in: formData
-        name: username
-        type: string
-        required: true
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#definitions/User"
     get:
       summary: Gets a list of all users
       description: Gets a list of all users
       operationId: getUsers
       produces:
       - application/json
+      parameters: []
       responses:
         "200":
           description: OK
           schema:
             type: array
             items:
-              $ref: "#definitions/User"
-  /api/users/:_id/exercises:
+              $ref: '#/definitions/User'
+    post:
+      summary: Creates a user
+      description: Creates a user
+      operationId: saveUsers
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: formData
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+  /api/users/:{_id}/exercises:
     post:
       summary: Creates user exercises
       description: Creates user exercises
       operationId: saveExercise
       consumes:
-      - application/json
+      - application/x-www-form-urlencoded
       produces:
       - application/json
       parameters:
       - name: _id
         in: path
         description: the id of the user
-        type: string
         required: true
+        type: string
       - name: description
         in: formData
-        type: string
         required: true
+        type: string
       - name: duration
         in: formData
-        type: integer
         required: true
+        type: integer
       - name: date
         in: formData
-        type: string
         required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#definitions/UserExercise"
-  /api/users/:_id/logs:
+            $ref: '#/definitions/UserExercise'
+  /api/users/:{_id}/logs:
     get:
       summary: Gets a full exercise log of any user
       description: Gets a full exercise log of any user
@@ -94,120 +95,118 @@ paths:
       - name: _id
         in: path
         description: the id of the user
-        type: string
         required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#definitions/UserLogs"
-  /api/users/:_id/logs/:from/:to/:limit:
+            $ref: '#/definitions/UserLogs'
+  /api/users/:{_id}/logs/:{from}/:{to}/:{limit}:
     get:
       summary: Retrieves part of the log of any user
       description: Retrieves part of the log of any user
       operationId: getUserLogsTimeLimit
-      consumes:
-      - application/json
       produces:
       - application/json
       parameters:
       - name: _id
         in: path
         description: the id of the user
-        type: string
         required: true
+        type: string
       - name: from
         in: path
         description: from date
-        type: string
         required: true
+        type: string
+        default: YYYY-MM-DD
         format: date
-        default: "YYYY-MM-DD"
       - name: to
         in: path
         description: to date
-        type: string
-        format: date
         required: true
-        default: "YYYY-MM-DD"
+        type: string
+        default: YYYY-MM-DD
+        format: date
       - name: limit
         in: path
         description: how many logs send back
-        type: integer
         required: true
+        type: integer
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#definitions/UserLogs"
+            $ref: '#/definitions/UserLogs'
 definitions:
   User:
     type: object
     required:
-    - username
     - _id
+    - username
     properties:
       username:
         type: string
-        example: "fcc_test"
+        example: fcc_test
       _id:
         type: string
-        example: "5fb5853f734231456ccb3b05"
+        example: 5fb5853f734231456ccb3b05
   UserExercise:
     type: object
     required:
-    - username
     - _id
+    - date
     - description
     - duration
-    - date
+    - username
     properties:
       username:
         type: string
-        example: "fcc_test"
+        example: fcc_test
       _id:
         type: string
-        example: "5fb5853f734231456ccb3b05"
+        example: 5fb5853f734231456ccb3b05
       description:
         type: string
-        example: "test"
+        example: test
       duration:
         type: integer
         example: 60
       date:
         type: string
-        example: "Mon Jan 01 1990"
+        example: Mon Jan 01 1990
   UserLogs:
     type: object
     required:
-    - username
     - _id
     - count
     - log
+    - username
     properties:
       username:
         type: string
-        example: "fcc_test"
+        example: fcc_test
       _id:
         type: string
-        example: "5fb5853f734231456ccb3b05"
-      count: 
+        example: 5fb5853f734231456ccb3b05
+      count:
         type: integer
-        description: representing the number of exercises that belong to that user.
         example: 1
+        description: representing the number of exercises that belong to that user.
       log:
         type: array
         items:
-          $ref: "#definitions/Log"
+          $ref: '#/definitions/Log'
   Log:
     type: object
     properties:
       description:
         type: string
-        example: "test"
+        example: test
       duration:
         type: integer
         example: 60
-      date: 
+      date:
         type: string
-        example: "Mon Jan 01 1990"
+        example: Mon Jan 01 1990
