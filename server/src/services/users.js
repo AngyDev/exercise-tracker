@@ -1,8 +1,7 @@
 const db = require("../db/database");
 
 const getUsers = () => {
-  const data = db.query("SELECT * FROM users");
-  return { data };
+  return db.query("SELECT * FROM users");
 };
 
 const createUser = (user) => {
@@ -14,7 +13,7 @@ const createUser = (user) => {
   if (result.changes) {
     message = "User created successfully";
   }
-  
+
   return { message };
 };
 
