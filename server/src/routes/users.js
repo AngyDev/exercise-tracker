@@ -24,7 +24,6 @@ router.post("/", (req, res, next) => {
       } else {
         res.status(400).send("Error in creating user");
       }
-
     } else {
       res.status(400).send("Invalid username");
     }
@@ -69,9 +68,9 @@ router.post("/:_id/exercises", (req, res, next) => {
             username: user.username,
             _id: user._id,
             description: exercise.description,
-            duration: exercise.duration,
-            date: new Date (exercise.date).toDateString(),
-          })
+            duration: parseInt(exercise.duration),
+            date: new Date(exercise.date).toDateString(),
+          });
         } else {
           res.status(400).send("Error in creating user exercise");
         }
@@ -89,6 +88,32 @@ router.post("/:_id/exercises", (req, res, next) => {
 });
 
 // Gets a full exercise log of any user
+router.get("/:_id/logs", (req, res, next) => {
+  try {
+    const { _id } = req.params;
+
+    // Find the user by Id
+    const user = users.getUserById(_id);
+
+    if (user) {
+      const exercises = users.getUserExercies(_id);
+
+      res.json({
+        username: user.username,
+        _id: user._id,
+        count: exercises.length,
+        log: exercises.map((exercise) => {
+          return { ...exercise, date: new Date(exercise.date).toDateString() };
+        }),
+      });
+    } else {
+      res.status(400).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error while getting user: ", error.message);
+    next(error);
+  }
+});
 
 // Retrieves part of the log of any user
 

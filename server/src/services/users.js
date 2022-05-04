@@ -37,4 +37,8 @@ const createUserExercise = (userId, exercise) => {
   // return { message };
 }
 
-module.exports = { getUsers, createUser, getUserById, createUserExercise };
+const getUserExercies = (userId) => {
+  return db.queryAll("SELECT description, duration, date FROM exercises WHERE userId = ?", userId);
+}
+
+module.exports = { getUsers, createUser, getUserById, createUserExercise, getUserExercies };

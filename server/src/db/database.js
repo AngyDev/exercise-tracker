@@ -6,6 +6,10 @@ const query = (sql) => {
   return db.prepare(sql).all();
 }
 
+const queryAll = (sql, params) => {
+  return db.prepare(sql).all(params);
+}
+
 const params = (sql, params) => {
   return db.prepare(sql).get(params); // return a single row with params
 }
@@ -14,4 +18,4 @@ const run = (sql, params) => {
   return db.prepare(sql).run(params);
 }
 
-module.exports = { query, run, params };
+module.exports = { query, queryAll, run, params };
