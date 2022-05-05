@@ -20,11 +20,17 @@ const createUser = (user) => {
 
 const getUserById = (_id) => {
   return db.params("SELECT * FROM users WHERE _id = ?", _id);
-}
+};
 
 const createUserExercise = (userId, exercise) => {
   const { _id, description, duration, date } = exercise;
-  const result = db.run("INSERT INTO exercises (_id, description, duration, date, userId) VALUES (@_id, @description, @duration, @date, @userId)", { _id, description, duration, date, userId });
+  const result = db.run("INSERT INTO exercises (_id, description, duration, date, userId) VALUES (@_id, @description, @duration, @date, @userId)", {
+    _id,
+    description,
+    duration,
+    date,
+    userId,
+  });
 
   return result;
 
@@ -35,10 +41,14 @@ const createUserExercise = (userId, exercise) => {
   // }
 
   // return { message };
-}
+};
 
 const getUserExercies = (userId) => {
   return db.queryAll("SELECT description, duration, date FROM exercises WHERE userId = ?", userId);
-}
+};
 
-module.exports = { getUsers, createUser, getUserById, createUserExercise, getUserExercies };
+const getUserExerciesFromTo = (userId, from, to, limit) => {
+  return db.queryAll("SELECT description, duration, date FROM exercises WHERE userId = ? AND date BETWEEN ? AND ? LIMIT ?", [userId, from, to, limit]);
+};
+
+module.exports = { getUsers, createUser, getUserById, createUserExercise, getUserExercies, getUserExerciesFromTo };

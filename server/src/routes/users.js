@@ -1,4 +1,5 @@
 const express = require("express");
+const moment = require("moment");
 const router = express.Router();
 const users = require("../services/users");
 const { v4: uuidv4 } = require("uuid");
@@ -49,7 +50,12 @@ router.post("/:_id/exercises", (req, res, next) => {
     const { _id } = req.params;
     const { description, duration, date } = req.body;
 
-    const exercise = { description, duration, date: date || new Date().toString(), _id: uuidv4() };
+    const exercise = {
+      description,
+      duration,
+      date: date !== "" ? moment(date).format("YYYY-MM-DD") : moment(new Date()).format("YYYY-MM-DD"), // 2022-05-04 
+      _id: uuidv4(),
+    };
     // Find the user by Id
     const user = users.getUserById(_id);
 
@@ -69,7 +75,7 @@ router.post("/:_id/exercises", (req, res, next) => {
             _id: user._id,
             description: exercise.description,
             duration: parseInt(exercise.duration),
-            date: new Date(exercise.date).toDateString(),
+            date: new Date(exercise.date).toDateString(), // Wed May 04 2022
           });
         } else {
           res.status(400).send("Error in creating user exercise");
@@ -116,5 +122,32 @@ router.get("/:_id/logs", (req, res, next) => {
 });
 
 // Retrieves part of the log of any user
+router.get("/:_id/logs/:from/:to/:limit", (req, res, next) => {
+  try {
+    const { _id } = req.params;
+    const { from, to, limit } = req.params;
+
+    // Find the user by Id
+    const user = users.getUserById(_id);
+
+    if (user) {
+      const exercises = users.getUserExerciesFromTo(_id, from, to, limit);
+
+      res.json({
+        username: user.username,
+        _id: user._id,
+        count: exercises.length,
+        log: exercises.map((exercise) => {
+          return { ...exercise, date: new Date(exercise.date).toDateString() };
+        }),
+      });
+    } else {
+      res.status(400).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error while getting user: ", error.message);
+    next(error);
+  }
+});
 
 module.exports = router;
