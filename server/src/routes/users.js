@@ -21,7 +21,8 @@ router.post("/", (req, res, next) => {
 
       // Checks if the user was created successfully
       if (result.changes) {
-        res.json(user);
+        // res.json(user);
+        res.render("pages/index", { user: user });
       } else {
         res.status(400).send("Error in creating user");
       }
@@ -53,7 +54,7 @@ router.post("/:_id/exercises", (req, res, next) => {
     const exercise = {
       description,
       duration,
-      date: date !== "" ? moment(date).format("YYYY-MM-DD") : moment(new Date()).format("YYYY-MM-DD"), // 2022-05-04 
+      date: date !== "" ? moment(date).format("YYYY-MM-DD") : moment(new Date()).format("YYYY-MM-DD"), // 2022-05-04
       _id: uuidv4(),
     };
     // Find the user by Id
@@ -70,13 +71,15 @@ router.post("/:_id/exercises", (req, res, next) => {
 
         // If the exercise was created successfully create an object with exercise and user
         if (result.changes) {
-          res.json({
+          const userExercise = {
             username: user.username,
             _id: user._id,
             description: exercise.description,
             duration: parseInt(exercise.duration),
             date: new Date(exercise.date).toDateString(), // Wed May 04 2022
-          });
+          };
+          // res.json(exercise);
+          res.render("pages/index", { exercise: userExercise });
         } else {
           res.status(400).send("Error in creating user exercise");
         }

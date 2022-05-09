@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main>
+      <div class="jumbotron">
+        <h3>Create your user</h3>
+        <form class="form-inline mt-3 mb-3" action="/api/users/" method="post">
+          <div class="form-group mb-2 mr-sm-3">
+            <label for="username" class="font-weight-bold">Insert your username:</label>
+            <input class="form-control ml-3" type="text" placeholder="Username" name="username" />
+          </div>
+          <button class="btn btn-primary mb-2">Submit</button>
+        </form>
+
+        <% if (user) { %>
+        <div class="flex">
+          <p>
+            <span class="font-weight-bold">The id of the user <%= user.username %> is :</span>
+            <%= user._id %>
+          </p>
+        </div>
+        <% } %>
+
+        <hr class="my-4" />
+
+        <% if (user) { %>
+        <h3>Insert your exercise</h3>
+        <form class="form" action="/api/users/<%= user._id %>/exercises" method="post">
+          <div class="form-group mb-2 mr-sm-3">
+            <label for="duration" class="font-weight-bold">Duration:</label>
+            <input class="form-control" type="text" placeholder="Duration" name="duration" />
+          </div>
+          <div class="form-group mb-2 mr-sm-3">
+            <label for="description" class="font-weight-bold">Description:</label>
+            <input class="form-control" type="text" placeholder="Description" name="description" />
+          </div>
+          <div class="form-group mb-2 mr-sm-3">
+            <label for="date" class="font-weight-bold">Date:</label>
+            <input class="form-control" type="date" placeholder="" name="date" />
+          </div>
+          <button class="btn btn-primary mb-2">Submit</button>
+        </form>
+        <% } %>
+      </div>
+    </main>
+
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>
