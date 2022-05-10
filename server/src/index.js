@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("pages/index", { user: null });
+  res.render("pages/index", { user: null, exercises: null });
 });
 
 app.use("/api/users", require("./routes/users"));

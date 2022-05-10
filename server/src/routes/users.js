@@ -22,7 +22,7 @@ router.post("/", (req, res, next) => {
       // Checks if the user was created successfully
       if (result.changes) {
         // res.json(user);
-        res.render("pages/index", { user: user });
+        res.render("pages/index", { user: user, exercises: null });
       } else {
         res.status(400).send("Error in creating user");
       }
@@ -71,15 +71,15 @@ router.post("/:_id/exercises", (req, res, next) => {
 
         // If the exercise was created successfully create an object with exercise and user
         if (result.changes) {
-          const userExercise = {
+          const userExercises = {
             username: user.username,
             _id: user._id,
             description: exercise.description,
             duration: parseInt(exercise.duration),
             date: new Date(exercise.date).toDateString(), // Wed May 04 2022
           };
-          // res.json(exercise);
-          res.render("pages/index", { exercise: userExercise });
+          // res.json(userExercises);
+          res.render("pages/index", { user: { username: user.username, _id: user._id }, exercises: userExercises });
         } else {
           res.status(400).send("Error in creating user exercise");
         }
