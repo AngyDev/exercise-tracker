@@ -22,7 +22,7 @@ router.post("/", (req, res, next) => {
       // Checks if the user was created successfully
       if (result.changes) {
         // res.json(user);
-        res.render("pages/index", { user: user, exercises: null });
+        res.render("pages/index", { user: user, exercises: null, exercisesList: null });
       } else {
         res.status(400).send("Error in creating user");
       }
@@ -79,7 +79,7 @@ router.post("/:_id/exercises", (req, res, next) => {
             date: new Date(exercise.date).toDateString(), // Wed May 04 2022
           };
           // res.json(userExercises);
-          res.render("pages/index", { user: { username: user.username, _id: user._id }, exercises: userExercises });
+          res.render("pages/index", { user: { username: user.username, _id: user._id }, exercises: userExercises, exercisesList: null });
         } else {
           res.status(400).send("Error in creating user exercise");
         }
@@ -107,14 +107,25 @@ router.get("/:_id/logs", (req, res, next) => {
     if (user) {
       const exercises = users.getUserExercies(_id);
 
-      res.json({
+      const exercisesList = {
         username: user.username,
         _id: user._id,
         count: exercises.length,
         log: exercises.map((exercise) => {
           return { ...exercise, date: new Date(exercise.date).toDateString() };
         }),
-      });
+      };
+
+      res.render("pages/userExercises", { exercisesList: exercisesList });
+
+      // res.json({
+      //   username: user.username,
+      //   _id: user._id,
+      //   count: exercises.length,
+      //   log: exercises.map((exercise) => {
+      //     return { ...exercise, date: new Date(exercise.date).toDateString() };
+      //   }),
+      // });
     } else {
       res.status(400).send("User not found");
     }

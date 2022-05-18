@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <html lang="en">
+    <head>
+      <%- include('../partials/head'); %>
+    </head>
+    <body class="container">
+      <header><%- include('../partials/header'); %></header>
+
+      <main>
+        <% if (exercisesList) { %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Description</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <% for(var i = 0; i < exercisesList.log.length; i++) { %>
+          <tbody>
+            <tr>
+              <th scope="row"><%= exercisesList.username %></th>
+              <td><%= exercisesList.log[i].description %></td>
+              <td><%= exercisesList.log[i].duration %></td>
+              <td><%= exercisesList.log[i].date %></td>
+            </tr>
+          </tbody>
+          <% } %>
+        </table>
+        <% } %>
+
+        <footer><%- include('../partials/footer'); %></footer>
+      </main>
+    </body>
+  </html>
+</html>

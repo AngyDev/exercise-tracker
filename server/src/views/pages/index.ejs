@@ -21,7 +21,7 @@
         <div class="flex">
           <p>
             <span class="font-weight-bold">The id of the user <%= user.username %> is :</span>
-            <%= user._id %>
+            <span id="userId"><%= user._id %></span>
           </p>
         </div>
         <% } %>
@@ -57,35 +57,14 @@
             is inserted
           </p>
         </div>
-        <% } %> 
-        <% if (exercises) { %>
-          <button class="btn btn-primary">Show exercises</button>
-          <% } %>
-        <% if (exercises) { %>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Username</th>
-              <th scope="col">Description</th>
-              <th scope="col">Duration</th>
-              <th scope="col">Date</th>
-            </tr>
-          </thead>
-          <% for(var i = 0; i < exercises.length; i++) { %>
-          <tbody>
-            <tr>
-              <th scope="row"><%= exercises[i].username %></th>
-              <td><%= exercises[i].description %></td>
-              <td><%= exercises[i].duration %></td>
-              <td><%= exercises[i].date %></td>
-            </tr>
-          </tbody>
-          <% } %>
-        </table>
+        <% } %> <% if (exercises) { %>
+        <!-- <button type="button" class="btn btn-primary" id="btnExercise">Show exercises</button> -->
+        <a class="btn btn-primary" href="/api/users/<%= user._id %>/logs">Show exercises</a>
         <% } %>
       </div>
     </main>
 
     <footer><%- include('../partials/footer'); %></footer>
+    <script src="/script/index.js" type="text/javascript"></script>
   </body>
 </html>
