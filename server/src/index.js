@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("pages/index", { user: null, exercises: null, exercisesList: null });
+  res.render("pages/index", { user: null, exercises: null});
 });
 
 app.use("/api/users", require("./routes/users"));

@@ -8,28 +8,40 @@
       <header><%- include('../partials/header'); %></header>
 
       <main>
-        <% if (exercisesList) { %>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Username</th>
-              <th scope="col">Description</th>
-              <th scope="col">Duration</th>
-              <th scope="col">Date</th>
-            </tr>
-          </thead>
-          <% for(var i = 0; i < exercisesList.log.length; i++) { %>
-          <tbody>
-            <tr>
-              <th scope="row"><%= exercisesList.username %></th>
-              <td><%= exercisesList.log[i].description %></td>
-              <td><%= exercisesList.log[i].duration %></td>
-              <td><%= exercisesList.log[i].date %></td>
-            </tr>
-          </tbody>
+        <div class="jumbotron">
+          <!-- <h3>Find your exercises</h3>
+
+          <form class="form-inline mt-3 mb-3" action="/api/users/" method="post">
+            <div class="form-group mb-2 mr-sm-3">
+              <label for="username" class="font-weight-bold">Insert your username:</label>
+              <input class="form-control ml-3" type="text" placeholder="Username" name="username" />
+            </div>
+            <button class="btn btn-primary mb-2">Search</button>
+          </form> -->
+
+          <% if (exercisesList) { %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Description</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <% for(var i = 0; i < exercisesList.log.length; i++) { %>
+            <tbody>
+              <tr>
+                <th scope="row"><%= exercisesList.username %></th>
+                <td><%= exercisesList.log[i].description %></td>
+                <td><%= exercisesList.log[i].duration %></td>
+                <td><%= exercisesList.log[i].date %></td>
+              </tr>
+            </tbody>
+            <% } %>
+          </table>
           <% } %>
-        </table>
-        <% } %>
+        </div>
 
         <footer><%- include('../partials/footer'); %></footer>
       </main>
