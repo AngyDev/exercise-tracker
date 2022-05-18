@@ -9,7 +9,7 @@
     <main>
       <div class="jumbotron">
         <h3>Create your user</h3>
-        <form class="form-inline mt-3 mb-3" action="/api/users/" method="post">
+        <form id="username-form" class="form-inline mt-3 mb-3" action="/api/users/" method="post">
           <div class="form-group mb-2 mr-sm-3">
             <label for="username" class="font-weight-bold">Insert your username:</label>
             <input class="form-control ml-3" type="text" placeholder="Username" name="username" />
@@ -30,7 +30,7 @@
 
         <% if (user) { %>
         <h3>Insert your exercise</h3>
-        <form class="form" action="/api/users/<%= user._id %>/exercises" method="post">
+        <form id="exercise-form" class="form" action="/api/users/<%= user._id %>/exercises" method="post">
           <div class="form-group mb-2 mr-sm-3">
             <label for="description" class="font-weight-bold">Description:</label>
             <input class="form-control" type="text" placeholder="Description" name="description" />
@@ -59,7 +59,7 @@
         </div>
         <% } %> <% if (exercises) { %>
         <!-- <button type="button" class="btn btn-primary" id="btnExercise">Show exercises</button> -->
-        <a class="btn btn-primary" href="/api/users/<%= user._id %>/logs">Show exercises</a>
+        <a id="showExercises" class="btn btn-primary" href="/api/users/<%= user._id %>/logs">Show exercises</a>
         <% } %>
       </div>
     </main>
