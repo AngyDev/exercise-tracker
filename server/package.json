@@ -20,7 +20,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "cypress": "^9.6.1",
+    "cypress": "^13.6.3",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15"
   }
